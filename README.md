@@ -2,4 +2,4 @@
 
 # paleidias: http://localhost/xExtractor
 
-#configuracijos failas /xExtractor/config.php
+# configuracijos failas /xExtractor/config.php
