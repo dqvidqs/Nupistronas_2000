@@ -52,7 +52,7 @@ class xExtractor {
                     //info table
 
                     $this->get_content($map, $id_key, $tables_rows, $header, $result);
-                    $this->get_content($map, $id_key, $main_tables_rows, $header, $result);               
+                    $this->get_content($map, $id_key, $main_tables_rows, $header, $result); 
                 }
             }
             // $header = $this->fix_header($map);
@@ -80,14 +80,13 @@ class xExtractor {
             }
 
             if($i % 2 == $_r){
-                if (strpos($content[$i][0], '<li>') !== false){
-                    $content[$i][0] = str_replace(array('<li>', '</li>'), array('', " "), $content[$i][0]);
+                if(strpos($content[$i][0], '<LI') !== false){
+                    $content[$i][0] = str_replace('</LI>', "\r\n", $content[$i][0]);
+                    $content[$i][0] = str_replace('<LI>', '', $content[$i][0]);
                 }
-
                 $result[] = strip_tags($content[$i][0]);
             }
         } 
-
         foreach($header as $key => $title){
             if(isset($result[$key])){
                 $map[$title][$id_key] = $result[$key];
