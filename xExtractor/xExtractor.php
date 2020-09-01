@@ -25,32 +25,35 @@ class xExtractor {
                 mkdir($boot->config['img_dir'] . "/{$row}");
             }
             if($row && is_numeric($row)){
-                sleep($boot->config['sleep']);
-
+                //gellery
                 $html = $ex->get_raw_html($boot->config['products_link'] . $row);
 
-                //main table
-                $main_table = get_raw_tag_c($html, '<table cellpadding="0" cellspacing="0" class="tdb-table">', '</table>');       
-                $main_tables_rows = get_raw_tag($main_table, '<td', '</td>');
-
-                //gellery
                 $gallery = get_raw_tag_c($html, '<div id="gallery" style="height: 50px;">', '</div>');
                 $gallery_rows = get_raw_tag($gallery, '<a', '</a>');
                 
-                //info table
-                $table = get_raw_tag_c($html, '<table cellpadding="0" cellspacing="2">', '</table>');       
-                $tables_rows = get_raw_tag($table, '<td', '</td>');
-                //info table
-                $this->get_content($map, $id_key, $tables_rows, $header, $result);
-                $this->get_content($map, $id_key, $main_tables_rows, $header, $result);
-                //gellery
                 $img = array();
                 foreach($gallery_rows as $key => $grow){
                     $pic = get_href_from_tag($grow[0]);
                     $img[] = $boot->config['img_dir'] . "/{$row}". '/' . $key . '.jpg';
                     file_put_contents($img[$key], $ex->get_raw_html($pic));
                 }
+                $map['ID'][$id_key] = $row;
                 $map['img'][$id_key] = implode ( $img, ';');
+                sleep($boot->config['sleep']);
+
+
+                //main table
+                $main_table = get_raw_tag_c($html, '<table cellpadding="0" cellspacing="0" class="tdb-table">', '</table>');       
+                $main_tables_rows = get_raw_tag($main_table, '<td', '</td>');
+
+
+                //info table
+                $table = get_raw_tag_c($html, '<table cellpadding="0" cellspacing="2">', '</table>');       
+                $tables_rows = get_raw_tag($table, '<td', '</td>');
+                //info table
+                $this->get_content($map, $id_key, $tables_rows, $header, $result);
+                $this->get_content($map, $id_key, $main_tables_rows, $header, $result);
+              
             }
         }
         $header = array_keys ( $map ); 
@@ -72,7 +75,6 @@ class xExtractor {
             reset($map);
         }
         $rez = $this->reverse_array($map);
-        
         $file_csv = fopen($boot->config['result_dir'] . '/' . $boot->config['result_file'], "w");
         foreach($rez as $line) {
             fputcsv($file_csv, $line);
