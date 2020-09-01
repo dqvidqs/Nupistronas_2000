@@ -127,7 +127,7 @@ class xExtractor {
             }
             reset($map);
         }
-        return = array_merge(array($header), $result);
+        return array_merge(array($header), $result);
     }
 }
 ?>
