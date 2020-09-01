@@ -16,15 +16,13 @@ class xExtractor {
             'cookies' => $boot->config['cookies']
         ));
 
-        $add_header = true;
-        $result = array();
-        $header = array();
         $st = microtime(true);
         $map = array();
-
+        $result = array();
+        $header = array();
         foreach($ids as $id_key => $row){
-            if(!is_dir($boot->root . $boot->config['img_dir'] . "/{$row}")){
-                mkdir($boot->root . $boot->config['img_dir'] . "/{$row}");
+            if(!is_dir($boot->config['img_dir'] . "/{$row}")){
+                mkdir($boot->config['img_dir'] . "/{$row}");
             }
             if($row && is_numeric($row)){
                 sleep($boot->config['sleep']);
@@ -43,18 +41,17 @@ class xExtractor {
                 $table = get_raw_tag_c($html, '<table cellpadding="0" cellspacing="2">', '</table>');       
                 $tables_rows = get_raw_tag($table, '<td', '</td>');
                 //info table
-                $this->get_content($map, $id_key, $tables_rows, $header, $result, $add_header);
-                $this->get_content($map, $id_key, $main_tables_rows, $header, $result, $add_header);
+                $this->get_content($map, $id_key, $tables_rows, $header, $result);
+                $this->get_content($map, $id_key, $main_tables_rows, $header, $result);
                 //gellery
                 $img = array();
                 foreach($gallery_rows as $key => $grow){
                     $pic = get_href_from_tag($grow[0]);
-                    $img[] = $boot->root . $boot->config['img_dir'] . "/{$row}". '/' . $key . '.jpg';
+                    $img[] = $boot->config['img_dir'] . "/{$row}". '/' . $key . '.jpg';
                     file_put_contents($img[$key], $ex->get_raw_html($pic));
                 }
                 $map['img'][$id_key] = implode ( $img, ';');
             }
-            $add_header = false;
         }
         $header = array_keys ( $map ); 
         
@@ -76,7 +73,7 @@ class xExtractor {
         }
         $rez = $this->reverse_array($map);
         
-        $file_csv = fopen($boot->root . $boot->config['result_dir'] . '/' . $boot->config['result_file'], "w");
+        $file_csv = fopen($boot->config['result_dir'] . '/' . $boot->config['result_file'], "w");
         foreach($rez as $line) {
             fputcsv($file_csv, $line);
         }
@@ -87,7 +84,7 @@ class xExtractor {
         die('DONE! ' . ($et - $st));
     }
 
-    private function get_content(&$map, int $id_key, array $content, array $header, array $result, bool $add_header = false,  int $_h = 0, int $_r = 1){
+    private function get_content(&$map, int $id_key, array $content, array $header, array $result,  int $_h = 0, int $_r = 1){
 
         for($i = 0; $i < count($content); $i++){
             if (strpos($content[$i][0], '<img') !== false){
@@ -130,8 +127,7 @@ class xExtractor {
             }
             reset($map);
         }
-        $rez = array_merge(array($header), $result);
-        return $rez;
+        return = array_merge(array($header), $result);
     }
 }
 ?>
