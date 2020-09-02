@@ -1,1 +1,1 @@
-<td class="table-td"><LI>HD Audio</LI><LI>Realtek ALC3286 codec</LI><LI>Dual stereo speakers</LI><LI>Dolby Audio Premium</LI><LI>Dual array far-field microphone</LI></td>
+ArrayArray

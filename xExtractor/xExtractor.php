@@ -7,28 +7,33 @@ class xExtractor {
     function __construct(){}
 
     public function run(){
+        $st = microtime(true);
+
         $boot = Boot::get_instance();
         $files = get_files($boot->config['products_dir']);
+
+        $ex = new HTMLExtractor(array(
+            'cookies' => $boot->config['cookies']
+        ));
+
         foreach($files as $file){
+            sleep($boot->config['sleep']);
             $file_content = file_get_contents($boot->config['products_dir'] .'/'. $file);
             $ids = explode(PHP_EOL, $file_content);
 
-            $ex = new HTMLExtractor(array(
-                'cookies' => $boot->config['cookies']
-            ));
-
-            $st = microtime(true);
             $map = array();
             $result = array();
             $header = array();
+
             foreach($ids as $id_key => $row){
+
                 if(!is_dir($boot->config['img_dir'] . "/{$row}")){
                     mkdir($boot->config['img_dir'] . "/{$row}");
                 }
                 if($row && is_numeric($row)){
                     //gellery
                     $html = $ex->get_raw_html($boot->config['products_link'] . $row);
-
+                    $title = get_raw_tag_f($html, '<div class="pageTitle">', '</div>');
                     $gallery = get_raw_tag_c($html, '<div id="gallery" style="height: 50px;">', '</div>');
                     $gallery_rows = get_raw_tag($gallery, '<a', '</a>');
                     
@@ -39,8 +44,8 @@ class xExtractor {
                         file_put_contents($img[$key], $ex->get_raw_html($pic));
                     }
                     $map['ID'][$id_key] = $row;
-                    $map['img'][$id_key] = implode ( $img, ';');
-                    sleep($boot->config['sleep']);
+                    $map['Title'][$id_key] = $title ?? '-';
+                    $map['img'][$id_key] = implode ( $img, $boot->config['img_implode'] );
 
                     //main table
                     $main_table = get_raw_tag_c($html, '<table cellpadding="0" cellspacing="0" class="tdb-table">', '</table>');       
@@ -87,13 +92,7 @@ class xExtractor {
                 $result[] = strip_tags($content[$i][0]);
             }
         } 
-        foreach($header as $key => $title){
-            if(isset($result[$key])){
-                $map[$title][$id_key] = $result[$key];
-            }else{
-                $map[$title][$id_key] = '-';
-            }
-        }
+        $map = $this->maping($map, $id_key, $header, $result);
     }
 
     private function reverse_array(array $map, array $result): array{
@@ -117,26 +116,16 @@ class xExtractor {
         return array_merge(array($header), $result);
     }
 
-    // private function maping(array $map, array $header, array $result): array{
-    //     for($i = 0; $i < count(current($map)); $i++){
-    //         if(!isset($result[$i])){
-    //             $result[$i] = array();
-    //         }
-    //         $e = current($map);
-    //         for($j = 0; $j < count($map); $j++){
-                
-    //             if(isset($e[$i])){
-    //                 array_push($result[$i], $e[$i]);
-    //             }else{
-    //                 array_push($result[$i], "-");
-    //             }
-    //             $e = next($map);
-    //         }
-    //         reset($map);
-    //     }
-    //     xlog($map);
-    //     return $map;
-    // }
+    private function maping(array $map, int $id_key, array $header, array $result): array{
+        foreach($header as $key => $title){
+            if(isset($result[$key])){
+                $map[$title][$id_key] = $result[$key];
+            }else{
+                $map[$title][$id_key] = '-';
+            }
+        }
+        return $map;
+    }
 
     private function fix_header(array $map){
         $arr = array();
@@ -146,18 +135,23 @@ class xExtractor {
                 $arr[] = $key;
             }
         }
-        foreach($map as $key => $row){
-            foreach($row as $rkey => $e){
-                foreach($arr as $remove){
-                    if($remove == $rkey){
-                        unset($map[$key][$rkey]);
+
+        if(count($arr) > 0){
+            foreach($map as $key => $row){
+                foreach($row as $rkey => $e){
+                    foreach($arr as $remove){
+                        if($remove == $rkey){
+                            unset($map[$key][$rkey]);
+                        }
                     }
                 }
             }
         }
+
         foreach($map as $key => $row){
             $map[$key] = array_values($map[$key]);
         }
+
         return $map;
     }
 }

@@ -25,7 +25,16 @@ function get_raw_tag_c(string $content, string $start, string $end): string{
     $content = substr($content, $start_pos, $end_pos - $start_pos + strlen($end));
     return $content;
 }
-
+function get_raw_tag_f(string $content, string $start, string $end): string{
+    $arr = get_raw_tag($content, $start, $end);
+    $value = '';
+    $content = array_walk_recursive($arr, function($item, $key) use (&$value){
+        if($item && !$value){
+            $value = strip_tags($item);
+        }
+    });
+    return $value;
+}
 function get_href_from_tag(string $tag){
     $regex = '/(?<=href=")(.|\n)*?(?=")/m';
     preg_match_all($regex, $tag, $matches, PREG_SET_ORDER);

@@ -5,6 +5,7 @@ return array(
     'products_link' => 'https://tdo.tdbaltic.com/ecom/ProductInfo/',
     'sleep' => '1',
     'img_dir' => '/files/images',
-    'result_dir' => '/files/rez'   
+    'img_implode' => ', ',
+    'result_dir' => '/files/rez',   
 );
 ?>
