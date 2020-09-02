@@ -34,7 +34,7 @@ class xExtractor {
                     //gellery
                     $html = $ex->get_raw_html($boot->config['products_link'] . $row);
                     $title = get_raw_tag_f($html, '<div class="pageTitle">', '</div>');
-                    $price = substr(strip_tags(get_raw_tag_c($html, '<span class="product_info_price">', '</span>')), 0, -4);
+                    $price = xmoney(get_raw_tag_c($html, '<span class="product_info_price">', '</span>', true));
                     $gallery = get_raw_tag_c($html, '<div id="gallery" style="height: 50px;">', '</div>');
                     $gallery_rows = get_raw_tag($gallery, '<a', '</a>');
                     

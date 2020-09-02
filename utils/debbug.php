@@ -9,6 +9,6 @@ function xlog($data, bool $die = true): void{
 
 function xlogf($data){
     file_put_contents('debbug.txt', $data);
-    die();
+    die('log in debbug.txt');
 }
 ?>

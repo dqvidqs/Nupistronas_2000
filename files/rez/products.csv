@@ -1,18 +1,23 @@
-ID,Title,img,"Prekės kodas:&nbsp;","EAN kodas:&nbsp;",Garantija:&nbsp;,"Marketing Text","Features & Benefits",Processor,"Processor Speed","Processor Max. Speed","Processor MultiCore Type",Chipset,"Cache External","RAM Installed","RAM Installed Max.","RAM Slots Total","RAM Slots Free","RAM Type","Storage Device Size","Storage Device Speed","Quantity of Storage Devices","Storage Device Type","Display Size","Display Type","Display Resolution","Display Features","Graphic Card","Graphics Controller","Graphics Memory Size","Graphics Memory Type",Camera,"Audio Features",WWAN,"WWAN Features","Network Card","Network Card Type","Wireless Standards","Wireless Card Type",Bluetooth,"Notebook Optical Storage","Input Devices","Operating System",Battery,"Average Run Time","Power Supply",Security,"Software Included",Width,Depth,Height,"Package Dimensions","Net Weight","Gross Weight",Warranty,"Expansion Ports","Expansion Slots","Card Reader","Smart Card Reader","Fingerprint Reader",Accessories,Localization
+ID,Title,Price,img,"Prekės kodas:&nbsp;","EAN kodas:&nbsp;",Garantija:&nbsp;,"Marketing Text","Features & Benefits",Processor,"Processor Speed","Processor Max. Speed","Processor MultiCore Type",Chipset,"Cache External","RAM Installed","RAM Installed Max.","RAM Slots Total","RAM Slots Free","RAM Type","Storage Device Size","Storage Device Speed","Quantity of Storage Devices","Storage Device Type","Display Size","Display Type","Display Resolution","Display Features","Graphic Card","Graphics Controller","Graphics Memory Size","Graphics Memory Type",Camera,"Audio Features",WWAN,"WWAN Features","Network Card","Network Card Type","Wireless Standards","Wireless Card Type",Bluetooth,"Notebook Optical Storage","Input Devices","Operating System",Battery,"Average Run Time","Power Supply",Security,"Software Included",Width,Depth,Height,"Package Dimensions","Net Weight","Gross Weight",Warranty,"Expansion Ports","Expansion Slots","Card Reader","Smart Card Reader","Fingerprint Reader",Accessories,Localization
 679590,"
-ThinkPad T490 / i7- 8565U / 8GB / 256GB SSD M.2 2280 PCIe NVMe Opal2 / 14"" FHD IPS Anti-glare  / WiFi / BT / Black / Key: US/I / W10P/ 3YW CCR   ","C:/xampp/htdocs/files/images/679590/0.jpg, C:/xampp/htdocs/files/images/679590/1.jpg, C:/xampp/htdocs/files/images/679590/2.jpg",20N2000RMH,-,"24 months",,,"Intel i7-8565U","1.80 GHz","4.60 GHz","4 cores / 8 threads","Integrated with processor","8 MB","8 GB","48 GB",1,1,"DDR4 2400","512 GB",-,1,SSD,"14""",FHD,"1920 x 1080","IPS
-AntiGlare",Integrated,"Intel UHD 620","System Shared",-,Yes,"HD Audio
+ThinkPad T490 / i7- 8565U / 8GB / 256GB SSD M.2 2280 PCIe NVMe Opal2 / 14"" FHD IPS Anti-glare  / WiFi / BT / Black / Key: US/I / W10P/ 3YW CCR   ",1306.57,"C:/xampp/htdocs/files/images/679590/0.jpg, C:/xampp/htdocs/files/images/679590/1.jpg, C:/xampp/htdocs/files/images/679590/2.jpg",20N2000RMH,-,"24 months",,,"Intel i7-8565U","1.80 GHz","4.60 GHz","4 cores / 8 threads","Integrated with processor","8 MB","8 GB","48 GB",1,1,"DDR4 2400","512 GB",-,1,SSD,"14""",FHD,"1920 x 1080","IPS
+AntiGlare
+",Integrated,"Intel UHD 620","System Shared",-,Yes,"HD Audio
 Realtek ALC3286 codec
 Dual stereo speakers
 Dolby Audio Premium
-Dual array far-field microphone",-,-,Yes,I219,ac,"Intel Wireless-AC 9560, Wi-Fi 2x2 802.11ac + Bluetooth 5.0",Yes,No,"6-row, spill-resistant, multimedia Fn keys
-TrackPoint pointing device and buttonless Mylar surface multi-touch touchpad","Windows 10 Pro",-,"Up to 16.1 hours",-,"Power-on password
+Dual array far-field microphone
+",-,-,Yes,I219,ac,"Intel Wireless-AC 9560, Wi-Fi 2x2 802.11ac + Bluetooth 5.0",Yes,No,"6-row, spill-resistant, multimedia Fn keys
+TrackPoint pointing device and buttonless Mylar surface multi-touch touchpad
+","Windows 10 Pro",-,"Up to 16.1 hours",-,"Power-on password
 Hard disk password
 Supervisor password
 Lock slot
-TPM 2.0",-,"329 mm","227 mm","17.9 mm",-,"1.550 Kg","2.500 Kg","3 years","2x USB 3.1
+TPM 2.0
+",-,"329 mm","227 mm","17.9 mm",-,"1.550 Kg","2.500 Kg","3 years","2x USB 3.1
 USB Type-C
 Thunderbolt 3
 HDMI
 RJ-45
-Audio jack",-,"multi-format SD media card reader",No,No,-,-
+Audio jack
+",-,"multi-format SD media card reader",No,No,-,-
