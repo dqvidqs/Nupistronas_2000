@@ -7,7 +7,11 @@ function xlog($data, bool $die = true): void{
     }
 }
 
-function xlogf($data){
+function xlogw($data): void{
+    xlog($data, false);
+}
+
+function xlogf(string $data): void{
     file_put_contents('debbug.txt', $data);
     die('log in debbug.txt');
 }

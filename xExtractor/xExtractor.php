@@ -106,11 +106,8 @@ class xExtractor {
             $e = current($map);
             for($j = 0; $j < count($map); $j++){
                 
-                if(isset($e[$i])){
-                    array_push($result[$i], $e[$i]);
-                }else{
-                    array_push($result[$i], "-");
-                }
+                array_push($result[$i], $e[$i]);
+  
                 $e = next($map);
             }
             reset($map);
