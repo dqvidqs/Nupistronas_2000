@@ -1,2 +1,8 @@
+
+*
+*/
+!.gitignore
+
 # exclude everything
+
 files/*
