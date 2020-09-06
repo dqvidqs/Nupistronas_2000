@@ -20,6 +20,11 @@ class xExtractor {
         ));
 
         foreach($files as $file_index => $file){
+
+            if($file_index != 0){
+                sleep($boot->config['sleep']);
+            }
+            
             $file_content = file_get_contents($boot->config['products_dir'] .'/'. $file);
             $ids = explode(PHP_EOL, $file_content);
             
@@ -28,7 +33,10 @@ class xExtractor {
             $header = array();
             
             foreach($ids as $id_key => $row){
-                sleep($boot->config['sleep']);
+                if($id_key != 0){
+                    sleep($boot->config['sleep']);
+                }
+
                 $dub->set_s('FILE: ' . $file . '; ID: '. $row, 'STARTED!: '. $row . '<br>');
 
                 if(!is_dir($boot->config['img_dir'] . "/{$row}")){
@@ -62,8 +70,8 @@ class xExtractor {
                     $tables_rows = get_raw_tag($table, '<td', '</td>');
                     //info table
 
-                    $this->get_content($map, $id_key, $tables_rows, $header, $result);
-                    $this->get_content($map, $id_key, $main_tables_rows, $header, $result); 
+                    $map = $this->get_content($map, $id_key, $tables_rows, $header, $result);
+                    $map = $this->get_content($map, $id_key, $main_tables_rows, $header, $result); 
                 }
                 $dub->set_e();
             }
@@ -80,7 +88,7 @@ class xExtractor {
         die('DONE!');
     }
 
-    private function get_content(&$map, int $id_key, array $content, array $header, array $result,  int $_h = 0, int $_r = 1){
+    private function get_content(array $map, int $id_key, array $content, array $header, array $result,  int $_h = 0, int $_r = 1): array{
         for($i = 0; $i < count($content); $i++){
             if (contain($content[$i][0], array('<img', 'div'))){
                 unset($content[$i]);
@@ -101,7 +109,7 @@ class xExtractor {
                 $result[] = strip_tags($content[$i][0]);
             }
         } 
-        $map = $this->maping($map, $id_key, $header, $result);
+        return $this->maping($map, $id_key, $header, $result);
     }
 
     private function reverse_array(array $map, array $result): array{
@@ -133,7 +141,7 @@ class xExtractor {
         return $map;
     }
 
-    private function fix_header(array $map){
+    private function fix_header(array $map): array{
         $arr = array();
         foreach($map[0] as $key => $row){
             // xlog($row);
