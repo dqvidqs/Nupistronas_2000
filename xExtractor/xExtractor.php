@@ -1,6 +1,7 @@
 <?php
 
 require_once 'HTMLExtractor.php';
+require_once 'ProductHeader.php';
 
 class xExtractor {
 
@@ -65,6 +66,7 @@ class xExtractor {
             // $header = $this->fix_header($map);
             $map = $this->reverse_array($map, $result);
             $map = $this->fix_header($map);
+            $map = $this->set_header_object($map);
             // $rez = $this->reverse_array($map);
             to_csv($map, $boot->config['result_dir'], $file);
         }
@@ -75,7 +77,7 @@ class xExtractor {
 
     private function get_content(&$map, int $id_key, array $content, array $header, array $result,  int $_h = 0, int $_r = 1){
         for($i = 0; $i < count($content); $i++){
-            if (strpos($content[$i][0], '<img') !== false || strpos($content[$i][0], '<div') !== false){
+            if (contain($content[$i][0], array('<img', 'div'))){
                 unset($content[$i]);
                 $content = array_values($content);
                 $i--;
@@ -83,11 +85,11 @@ class xExtractor {
             }
 
             if($i % 2 == $_h){
-                $header[] = strip_tags($content[$i][0]);
+                $header[] = trim_c(strip_tags($content[$i][0]));
             }
 
             if($i % 2 == $_r){
-                if(strpos($content[$i][0], '<LI') !== false){
+                if(contain($content[$i][0], '<LI')){
                     $content[$i][0] = str_replace('</LI>', "\r\n", $content[$i][0]);
                     $content[$i][0] = str_replace('<LI>', '', $content[$i][0]);
                 }
@@ -147,10 +149,24 @@ class xExtractor {
             }
         }
 
-        foreach($map as $key => $row){
-            $map[$key] = array_values($map[$key]);
+        // foreach($map as $key => $row){
+            // $map[$key] = array_values($map[$key]);
+        // }
+        // xlog($map);
+
+        return $map;
+    }
+    
+    private function set_header_object(array $map, int $index = 0): array{
+        $header = array_values($map[$index]);
+
+        foreach($header as $key => $row){
+            $header[$key] = new ProductHeader();
+            $header[$key]->value = $row;
         }
 
+        $map[$index] = $header;
+        
         return $map;
     }
 }

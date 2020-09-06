@@ -56,4 +56,23 @@ function get_files(string $dir){
     return array_values($files);
 }
 
+function trim_c(string $row){
+    $row = trim($row);
+    $row = str_replace(array('&nbsp;'), array(''), $row);
+    return $row;
+}
+
+function contain(string $object, $search): bool{
+    if(!is_array($search)){
+        $search = array($search);
+    }
+
+    foreach($search as $row){
+        if (strpos($object, $row) !== false) {
+            return true;
+        }
+    }
+    return false;
+}
+
 ?>

@@ -32,6 +32,7 @@ class HTMLExtractor{
 
         return $result;
     }
+    
     private function set_header(array $config): array{
         if($config['cookies']) {$headers[] = 'Cookie: ' . $config['cookies'] ;}
             
