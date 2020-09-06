@@ -1,6 +1,6 @@
 <?php
 return array(
     'Marketing Text' => 'Rinkodaros tekstas',
-    'RAM Installed' => 'Operatyvioji atmintis',
+    'RAM Installed' => 'Operatyvioji atmintis'
 );
 ?>
