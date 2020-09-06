@@ -9,7 +9,7 @@ class xExtractor {
 
     public function run(){
         $boot = Boot::get_instance();
-        
+        $this->order = include $boot->config['order_file'];
         $all = new Debugger(true, $boot->config['debug']);
         $all->set_s('ALL');
         $dub = new Debugger(true, $boot->config['debug']);
@@ -24,7 +24,7 @@ class xExtractor {
             if($file_index != 0){
                 sleep($boot->config['sleep']);
             }
-            
+
             $file_content = file_get_contents($boot->config['products_dir'] .'/'. $file);
             $ids = explode(PHP_EOL, $file_content);
             
@@ -74,13 +74,13 @@ class xExtractor {
                     $map = $this->get_content($map, $id_key, $main_tables_rows, $header, $result); 
                 }
                 $dub->set_e();
+                $dub->cal();
             }
-            $dub->cal();
             // $header = $this->fix_header($map);
-            $map = $this->reverse_array($map, $result);
+            $map = $this->reverse_array($map);
             $map = $this->fix_header($map);
             $map = $this->set_header_object($map);
-            // $rez = $this->reverse_array($map);
+            $map = $this->order($map);
             to_csv($map, $boot->config['result_dir'], $file);
         }
         $all->set_e();
@@ -112,17 +112,19 @@ class xExtractor {
         return $this->maping($map, $id_key, $header, $result);
     }
 
-    private function reverse_array(array $map, array $result): array{
+    private function reverse_array(array $map): array{
         $header = array_keys($map);
+        $result = array();
         for($i = 0; $i < count(current($map)); $i++){
-            if(!isset($result[$i])){
-                $result[$i] = array();
-            }
+            $result[$i] = array();
             $e = current($map);
             for($j = 0; $j < count($map); $j++){
-                
-                array_push($result[$i], $e[$i]);
-  
+                if(isset($e[$i])){
+                    array_push($result[$i], $e[$i]);
+                }else{
+                    array_push($result[$i], '-');
+                }
+              
                 $e = next($map);
             }
             reset($map);
@@ -134,8 +136,6 @@ class xExtractor {
         foreach($header as $key => $title){
             if(isset($result[$key])){
                 $map[$title][$id_key] = $result[$key];
-            }else{
-                $map[$title][$id_key] = '-';
             }
         }
         return $map;
@@ -144,7 +144,6 @@ class xExtractor {
     private function fix_header(array $map): array{
         $arr = array();
         foreach($map[0] as $key => $row){
-            // xlog($row);
             if(empty(trim($row))){
                 $arr[] = $key;
             }
@@ -171,10 +170,30 @@ class xExtractor {
         foreach($header as $key => $row){
             $header[$key] = new ProductHeader();
             $header[$key]->value = $row;
+            if(isset($this->order[$row])){
+                $header[$key]->order = $this->order[$row];
+            }else{
+                $header[$key]->order =  Boot::get_instance()->config['default_order'];
+            }
         }
 
         $map[$index] = $header;
 
+        return $map;
+    }
+
+    private function order(array $map): array{
+        for($cicle = 0; $cicle < count($map[0]); $cicle++){
+            for($i = 0; $i < count($map[0]) - 1; $i++){
+                if($map[0][$i]->order > $map[0][$i + 1]->order){
+                    for($e = 0; $e < count($map); $e++){
+                        $obj = $map[$e][$i];
+                        $map[$e][$i] = $map[$e][$i + 1];
+                        $map[$e][$i + 1] = $obj;
+                    }
+                }
+            }
+        }
         return $map;
     }
 }

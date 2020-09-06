@@ -35,16 +35,20 @@ class Boot{
     private function get_config(): void{
         if(file_exists($this->config_file)){
             $this->config = include "{$this->config_file}";
-            $this->create_folters();
+            $this->set_roots();
         }
     }
 
-    private function create_folters(): void{
+    private function set_roots(): void{
         foreach($this->config as $key => $row){
-            if($row && strpos($key, '_dir') !== false){
+            if($row && contain($key, '_dir')){
                 if(!is_dir($this->root . $row)){
                     mkdir($this->root . $row, 0777, true);
                 }
+                $this->config[$key] = $this->root . (strpos($row, '/')  === 0 ? $row : "/{$row}");
+            }
+
+            if($row && contain($key, '_file')){
                 $this->config[$key] = $this->root . (strpos($row, '/')  === 0 ? $row : "/{$row}");
             }
         }

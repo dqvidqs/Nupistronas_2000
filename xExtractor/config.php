@@ -8,5 +8,7 @@ return array(
     'img_dir' => '/files/images',
     'img_implode' => ', ',
     'result_dir' => '/files/rez',   
+    'order_file' => '/xExtractor/Order.php',
+    'default_order' => '1000'   
 );
 ?>
