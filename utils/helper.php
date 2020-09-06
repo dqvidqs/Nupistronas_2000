@@ -83,4 +83,19 @@ function contain(string $object, $search): bool{
     return false;
 }
 
+function contain_key(string $object, array $search, bool $igone_sensitive = true){
+    foreach($search as $key => $row){
+        if($igone_sensitive){
+            if (strpos(strtolower($object), strtolower($key)) !== false) {
+                return $row;
+            }
+        }else{
+            if (strpos($object, $key) !== false) {
+                return $row;
+            }
+        }
+    }
+    return false;
+}
+
 ?>
