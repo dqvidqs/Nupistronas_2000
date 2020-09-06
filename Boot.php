@@ -26,9 +26,7 @@ class Boot{
 
         require_once "{$arr[0]}/{$arr[0]}.php";
         $this->config_file = "{$arr[0]}/config.php";
-        
         $this->get_config();
-        $this->create_folters();
 
         $class = new $arr[0]();
         $class->run();  
@@ -37,6 +35,7 @@ class Boot{
     private function get_config(): void{
         if(file_exists($this->config_file)){
             $this->config = include "{$this->config_file}";
+            $this->create_folters();
         }
     }
 

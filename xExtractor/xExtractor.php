@@ -8,25 +8,28 @@ class xExtractor {
     function __construct(){}
 
     public function run(){
-        $st = microtime(true);
-
         $boot = Boot::get_instance();
+        
+        $all = new Debugger(true, $boot->config['debug']);
+        $all->set_s('ALL');
+        $dub = new Debugger(true, $boot->config['debug']);
         $files = get_files($boot->config['products_dir']);
 
         $ex = new HTMLExtractor(array(
             'cookies' => $boot->config['cookies']
         ));
 
-        foreach($files as $file){
-            sleep($boot->config['sleep']);
+        foreach($files as $file_index => $file){
             $file_content = file_get_contents($boot->config['products_dir'] .'/'. $file);
             $ids = explode(PHP_EOL, $file_content);
-
+            
             $map = array();
             $result = array();
             $header = array();
-
+            
             foreach($ids as $id_key => $row){
+                sleep($boot->config['sleep']);
+                $dub->set_s('FILE: ' . $file . '; ID: '. $row, 'STARTED!: '. $row . '<br>');
 
                 if(!is_dir($boot->config['img_dir'] . "/{$row}")){
                     mkdir($boot->config['img_dir'] . "/{$row}");
@@ -62,7 +65,9 @@ class xExtractor {
                     $this->get_content($map, $id_key, $tables_rows, $header, $result);
                     $this->get_content($map, $id_key, $main_tables_rows, $header, $result); 
                 }
+                $dub->set_e();
             }
+            $dub->cal();
             // $header = $this->fix_header($map);
             $map = $this->reverse_array($map, $result);
             $map = $this->fix_header($map);
@@ -70,9 +75,9 @@ class xExtractor {
             // $rez = $this->reverse_array($map);
             to_csv($map, $boot->config['result_dir'], $file);
         }
-        $et = microtime(true);
-
-        die('DONE! ' . ($et - $st));
+        $all->set_e();
+        $all->cal();
+        die('DONE!');
     }
 
     private function get_content(&$map, int $id_key, array $content, array $header, array $result,  int $_h = 0, int $_r = 1){
@@ -149,11 +154,6 @@ class xExtractor {
             }
         }
 
-        // foreach($map as $key => $row){
-            // $map[$key] = array_values($map[$key]);
-        // }
-        // xlog($map);
-
         return $map;
     }
     
@@ -166,7 +166,7 @@ class xExtractor {
         }
 
         $map[$index] = $header;
-        
+
         return $map;
     }
 }
