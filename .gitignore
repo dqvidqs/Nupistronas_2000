@@ -7,4 +7,5 @@ files/*
 *.txt
 
 !.gitignore
+Translating/vocabulary.php
 Translating/map_vocabulary.php

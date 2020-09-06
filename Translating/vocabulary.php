@@ -2,6 +2,6 @@
 return array(
     'localization' => 'lokalizacija',
     'installed' => 'įdiegta',
-    'months' => 'mėnesiai'
+    'months' => 'mėnesiai',
 );
 ?>
