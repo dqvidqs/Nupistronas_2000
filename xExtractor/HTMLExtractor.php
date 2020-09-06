@@ -4,13 +4,13 @@ class HTMLExtractor{
 
     function __construct(array $config){
         $this->url = $config['url'] ?? null;
-        $this->cookies = $config['cookies'] ?? null;
+        $this->config = $config;
     }
 
     public function get_raw_html($url = null): string{
-        $headers[] = 'Cookie: ' . $this->cookies;
+        $headers = $this->set_header($this->config);
         if(!$url && !$this->url){
-            throw new Exception('url does not exists!');
+            throw new xException('url does not exists!');
         }
         $curl = curl_init($url ?? $this->url);
 
@@ -21,11 +21,21 @@ class HTMLExtractor{
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($curl, CURLOPT_BINARYTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_COOKIESESSION, true);
+        curl_setopt($curl, CURLOPT_COOKIESESSION, $this->config['cookies'] ? 1 : 0);
+
         $result = curl_exec($curl);
+        
         if (curl_error($curl))
             die(curl_error($curl));
+            
+        curl_close($curl);
+
         return $result;
+    }
+    private function set_header(array $config): array{
+        if($config['cookies']) {$headers[] = 'Cookie: ' . $config['cookies'] ;}
+            
+        return $headers ?? array();
     }
 }
 ?>
