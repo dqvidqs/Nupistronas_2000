@@ -56,9 +56,17 @@ function get_files(string $dir){
     return array_values($files);
 }
 
-function trim_c(string $row){
+function trim_c(string $row, array $remove = array()){
     $row = trim($row);
-    $row = str_replace(array('&nbsp;'), array(''), $row);
+
+    $remove = array_merge(
+        $remove,
+        array(
+            '&nbsp;'
+        )
+    );
+
+    $row = str_replace($remove, '', $row);
     return $row;
 }
 
