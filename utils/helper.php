@@ -42,14 +42,23 @@ function get_href_from_tag(string $tag){
     return $matches[0][0];
 }
 
-function to_csv(array $map, string $dir, string $file){
+function to_csv(array $map, string $dir, string $file): void{
     $file_csv = fopen($dir . '/' . str_replace('.txt', '.csv', $file), "w");
     foreach($map as $line) {
         fputcsv($file_csv, $line);
     }
     fclose($file_csv);
 }
-
+function from_csv(string $dir, string $file): array{
+    $map = array();
+    if (($handler = fopen($dir . '/' . $file, "r")) !== false) {
+        while (($data = fgetcsv($handler, 10000000, ",")) !== false) {
+            $map[] = $data;
+        }
+    }
+    fclose($handler);
+    return $map;
+}
 function get_files(string $dir){
     $files = scandir($dir);
     unset($files[0], $files[1]);

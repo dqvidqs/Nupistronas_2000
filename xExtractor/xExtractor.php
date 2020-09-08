@@ -56,10 +56,10 @@ class xExtractor {
                         $img[] = $boot->config['img_dir'] . "/{$row}". '/' . $key . '.jpg';
                         file_put_contents($img[$key], $ex->get_raw_html($pic));
                     }
-                    $map['ID'][$id_key] = $row;
-                    $map['Title'][$id_key] = $title ?? '-';
-                    $map['Price'][$id_key] = $price;
-                    $map['img'][$id_key] = implode ( $img, $boot->config['img_implode'] );
+                    $map['add|ID'][$id_key] = $row;
+                    $map['add|Title'][$id_key] = $title ?? '-';
+                    $map['add|Price'][$id_key] = $price;
+                    $map['add|img'][$id_key] = implode ( $img, $boot->config['img_implode'] );
 
                     //main table
                     $main_table = get_raw_tag_c($html, '<table cellpadding="0" cellspacing="0" class="tdb-table">', '</table>');       
@@ -70,8 +70,8 @@ class xExtractor {
                     $tables_rows = get_raw_tag($table, '<td', '</td>');
                     //info table
 
-                    $map = $this->get_content($map, $id_key, $tables_rows, $header, $result);
-                    $map = $this->get_content($map, $id_key, $main_tables_rows, $header, $result); 
+                    $map = $this->get_content($map, $id_key, $tables_rows, $header, $result, $prefix = 'add');
+                    $map = $this->get_content($map, $id_key, $main_tables_rows, $header, $result, $prefix = 'arg'); 
                 }
                 $dub->set_e();
                 $dub->cal();
@@ -88,7 +88,7 @@ class xExtractor {
         die('DONE!');
     }
 
-    private function get_content(array $map, int $id_key, array $content, array $header, array $result,  int $_h = 0, int $_r = 1): array{
+    private function get_content(array $map, int $id_key, array $content, array $header, array $result, string $prefix = 'arg',  int $_h = 0, int $_r = 1): array{
         for($i = 0; $i < count($content); $i++){
             if (contain($content[$i][0], array('<img', 'div'))){
                 unset($content[$i]);
@@ -98,7 +98,7 @@ class xExtractor {
             }
 
             if($i % 2 == $_h){
-                $header[] = trim_c(strip_tags($content[$i][0]));
+                $header[] = "{$prefix}|" . trim_c(strip_tags($content[$i][0]));
             }
 
             if($i % 2 == $_r){

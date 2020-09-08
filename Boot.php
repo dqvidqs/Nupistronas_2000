@@ -23,12 +23,19 @@ class Boot{
         }else if(!is_file("{$arr[0]}/{$arr[0]}.php")){
             throw new xException("NOT FOUND FILE config.php", 1);     
         }
-
-        require_once "{$arr[0]}/{$arr[0]}.php";
+        
         $this->config_file = "{$arr[0]}/config.php";
         $this->get_config();
 
-        $class = new $arr[0]();
+        if(empty($arr[1])){
+            require_once "{$arr[0]}/{$arr[0]}.php";
+            $class = new $arr[0]();
+
+        }else{
+            require_once "{$arr[0]}/{$arr[1]}.php";
+            $class = new $arr[1]();
+        }
+        
         $class->run();  
     }
 
