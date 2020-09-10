@@ -203,7 +203,7 @@ class xExtractor {
         $boot = Boot::get_instance();
 
         if($money != 0){
-            $money = ($money + $money * $boot->config['vat']) * $boot->config['price_multiplier'];
+            $money = ($money + $money * $boot->config['vat']) * $boot->config['price_multiplier'] + $boot->config['price_add'];
         }else{
             return 0;
         }
