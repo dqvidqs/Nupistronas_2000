@@ -49,6 +49,7 @@ function to_csv(array $map, string $dir, string $file): void{
     }
     fclose($file_csv);
 }
+
 function from_csv(string $dir, string $file): array{
     $map = array();
     if (($handler = fopen($dir . '/' . $file, "r")) !== false) {
@@ -59,6 +60,7 @@ function from_csv(string $dir, string $file): array{
     fclose($handler);
     return $map;
 }
+
 function get_files(string $dir){
     $files = scandir($dir);
     unset($files[0], $files[1]);

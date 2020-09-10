@@ -17,7 +17,7 @@ class Format {
 
         $map = array();
         $push = 0;
-        $product_key = 1;
+        $product_key = $boot->config['number_starts'];
         $add_defaults = true;
 
         foreach($target[0] as $key => &$header){

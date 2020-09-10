@@ -10,5 +10,6 @@ return array(
     'item_public' => 'Požymis @number@ visuotinis',
     'item_visible_default' => '1',
     'item_public_default' => '1',
+    'number_starts' => '1'
 );
 ?>
