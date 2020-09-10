@@ -7,11 +7,11 @@
 # configuracijos failas /xExtractor/config.php
 
 
-# paleidias: http://localhost/xFormater
+# paleidias: http://localhost/xFormater/
 
 # configuracijos failas /xFormater/config.php
 
 
-# paleidias: http://localhost/Translating
+# paleidias: http://localhost/Translating/
 
 # configuracijos failas /Translating/config.php

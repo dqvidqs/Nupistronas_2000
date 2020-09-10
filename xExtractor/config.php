@@ -9,6 +9,8 @@ return array(
     'img_implode' => ', ',
     'result_dir' => '/files/rez',   
     'order_file' => '/xExtractor/Order.php',
-    'default_order' => '1000'   
+    'default_order' => '1000',  
+    'price_multiplier' => '1.01',  
+    'vat' => '0.21'
 );
 ?>

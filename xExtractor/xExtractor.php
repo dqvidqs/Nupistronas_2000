@@ -46,7 +46,7 @@ class xExtractor {
                     //gellery
                     $html = $ex->get_raw_html($boot->config['products_link'] . $row);
                     $title = get_raw_tag_f($html, '<div class="pageTitle">', '</div>');
-                    $price = xmoney(get_raw_tag_c($html, '<span class="product_info_price">', '</span>', true));
+                    $price = $this->get_price(get_raw_tag_c($html, '<span class="product_info_price">', '</span>', true));
                     $gallery = get_raw_tag_c($html, '<div id="gallery" style="height: 50px;">', '</div>');
                     $gallery_rows = get_raw_tag($gallery, '<a', '</a>');
                     
@@ -195,6 +195,20 @@ class xExtractor {
             }
         }
         return $map;
+    }
+
+    private function get_price($money){
+        $money = xmoney($money);
+
+        $boot = Boot::get_instance();
+
+        if($money != 0){
+            $money = ($money + $money * $boot->config['vat']) * $boot->config['price_multiplier'];
+        }else{
+            return 0;
+        }
+
+        return number_format($money, 2, '.', '');
     }
 }
 ?>
