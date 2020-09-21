@@ -51,6 +51,7 @@ class xExtractor {
                     $gallery_rows = get_raw_tag($gallery, '<a', '</a>');
                     
                     $img = array();
+                    $img_ex = array();
                     foreach($gallery_rows as $key => $grow){
                         $pic = get_href_from_tag($grow[0]);
                         $img[] = $boot->config['img_dir'] . "/{$row}". '/' . $key . '.jpg';
