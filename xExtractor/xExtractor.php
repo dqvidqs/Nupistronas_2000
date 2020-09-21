@@ -54,12 +54,13 @@ class xExtractor {
                     foreach($gallery_rows as $key => $grow){
                         $pic = get_href_from_tag($grow[0]);
                         $img[] = $boot->config['img_dir'] . "/{$row}". '/' . $key . '.jpg';
+                        $img_ex[] = $boot->config['img_exdir'] . "{$row}". '/' . $key . '.jpg';
                         file_put_contents($img[$key], $ex->get_raw_html($pic));
                     }
                     $map['add|ID'][$id_key] = $row;
                     $map['add|Title'][$id_key] = $title ?? '-';
                     $map['add|Price'][$id_key] = $price;
-                    $map['add|img'][$id_key] = implode ( $img, $boot->config['img_implode'] );
+                    $map['add|img'][$id_key] = implode ( $img_ex, $boot->config['img_implode'] );
 
                     //main table
                     $main_table = get_raw_tag_c($html, '<table cellpadding="0" cellspacing="0" class="tdb-table">', '</table>');       
