@@ -18,6 +18,7 @@ class Translating extends Controller{
 
     public function translate(){
         $all_reuslt = '';
+        
         $boot = Bootstrap::get_instance();
 
         $all = new xDebugger(true, $boot->config['debug']['value']);

@@ -44,7 +44,7 @@ class Bootstrap{
             'root' => $this->root ,
             'module' => $this->root . "/view.php"
         ));
-
+        
         if(isset($arr[1]) && !empty($arr[1])){
             if(method_exists($class, $arr[1])){
                 $class->{"{$arr[1]}"}();  
