@@ -45,10 +45,18 @@ class Bootstrap{
             'module' => $this->root . "/view.php"
         ));
 
-        if(isset($arr[1])){
-            $class->{"{$arr[1]}"}();  
+        if(isset($arr[1]) && !empty($arr[1])){
+            if(method_exists($class, $arr[1])){
+                $class->{"{$arr[1]}"}();  
+            }else{
+                throw new xException("METHOD {$arr[1]}() DO NOT EXISTS!", 1);          
+            }
         }else{
-            $class->run();  
+            if(method_exists($class, 'run')){
+                $class->run();  
+            }else{
+                throw new xException("METHOD run() DO NOT EXISTS!", 1);          
+            }
         }
     }
 
