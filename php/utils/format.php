@@ -15,4 +15,15 @@ function xmoney(string $money){
     
     return $value;
 }
+
+function xnumber_int(string $int){
+    $value = '';
+    for($i = 0; $i < strlen($int); $i++){
+        if(is_numeric($int[$i])){
+            $value .= $int[$i];
+        }
+    }
+    
+    return $value;
+}
 ?>

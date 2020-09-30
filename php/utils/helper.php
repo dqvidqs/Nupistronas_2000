@@ -15,6 +15,14 @@ function get_raw_tag(string $content, string $start, string $end): array{
     return $matches;
 }
 
+function get_raw_tag_s(string $content, string $start, string $end, bool $flash = false){
+    $regex = ( $flash ? '/' : '' ) . $start . '(.*?)' . $end . '/m';
+    // xlog($regex);
+    preg_match_all($regex, $content, $matches, PREG_SET_ORDER, 0);
+
+    return $matches;
+}
+
 function get_raw_tag_c(string $content, string $start, string $end, bool $remove_first_tag = false): string{
     $start_pos = strpos($content, $start) + ($remove_first_tag ? strlen($start) : 0);
     if(!$start_pos){
@@ -107,6 +115,10 @@ function contain_key(string $object, array $search, bool $igone_sensitive = true
         }
     }
     return false;
+}
+
+function array_to_file(string $file, array $array){
+    file_put_contents($file, "<?php return " . var_export($array, true) . " ?>");
 }
 
 ?>

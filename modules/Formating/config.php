@@ -41,7 +41,7 @@
   ),
   'item_visible_default' => 
   array (
-    'value' => '0',
+    'value' => '1',
     'name' => 'Item visible default',
   ),
   'item_public_default' => 

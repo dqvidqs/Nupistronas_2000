@@ -46,6 +46,9 @@ class TDBaltic extends Controller{
             $header = array();
             
             foreach($ids as $id_key => $row){
+                if(!$row){
+                    continue;
+                }
                 if($id_key != 0){
                     sleep($boot->config['sleep']['value']);
                 }
