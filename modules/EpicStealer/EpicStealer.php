@@ -33,13 +33,13 @@ class EpicStealer extends Controller{
     }
 
     public function list(){
-        die('asd');
+        // die('asd');
         $config = Bootstrap::get_instance()->config;
 
         $debug = new xDebugger(true, $config['debug']['value']);
         $debug->set_s();
 
-        $tree = file_get_contents($config['tree_collapse_file']['value']);
+        $tree = file_get_contents($config['tree_file']['value']);
 
         $ids_raw = get_raw_tag_s($tree, '/ext:tree-node-id="', '"');
 
