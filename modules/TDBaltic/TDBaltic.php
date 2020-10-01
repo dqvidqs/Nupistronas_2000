@@ -117,5 +117,94 @@ class TDBaltic extends Controller{
         file_put_contents($config_file, "<?php return " . var_export($config_raw, true) . " ?>");
         header('Location: /TDBaltic?saved=true');
     }
+
+    public function update(){
+        $config = Bootstrap::get_instance()->config;
+
+        $debug = new xDebugger(true, $config['debug']['value']);
+        $debug->set_s('ALL');
+
+        $files = get_files($config['products_dir']['value']);
+
+        $ex = new xExtractor();
+
+        $html_ex = new xHTMLExtractor(array(
+            'cookies' => $config['cookies']['value']
+        ));
+
+        $not_contain = array(
+            'Prekės kodas', 'EAN kodas', 'Garantija', 'months'
+        );
+
+        foreach($files as $file_index => $file){
+            $map = array(array(
+                'Prekės kodas' , 'Kaina', 'Kiekis'
+            ));
+            $file_content = file_get_contents($config['products_dir']['value'] .'/'. $file);
+            $ids = explode(PHP_EOL, $file_content);
+            $errors = array();
+
+            foreach($ids as $id_key => $row){
+                $error = false;
+                if(!$row){
+                    continue;
+                }
+                if($id_key != 0){
+                    sleep($config['sleep']['value']);
+                }
+                if($row && is_numeric($row)){
+                    //gellery
+                    $html = $html_ex->get_raw_html($config['products_link']['value'] . $row);
+                    // xlog($row);
+                    $price = xmoney(get_raw_tag_c($html, '<span class="product_info_price">', '</span>', true));
+                    // xlog($price);
+                    if(!is_numeric($price)){
+                        // throw new xException("ID: {$row} PRICE NOT FOUND!");
+                        $error = true;
+                        $price = "ID: {$row} PRICE NOT FOUND!";
+                    }
+                    $table = get_raw_tag_c($html, '<table cellpadding="0" cellspacing="2">', '</table>');       
+                    $code = get_raw_tag_s($table, '<td>', '<\/td>', true); 
+                    if(!is_array($code) || empty($code[1][0])){
+                        // throw new xException("ID: {$row} CODE NOT FOUND!");
+                        $error = true;
+                        $code = "ID: {$row} CODE NOT FOUND!";
+                    }else{
+                        $code = $code[1][0];
+                        foreach($not_contain as $n_contain){
+                            if(contain($code, $n_contain)){
+                                // throw new xException("ID: {$row} CODE NOT FOUND!");
+                                $error = true;
+                                $code = "ID: {$row} CODE NOT FOUND!";
+                            }
+                        }
+                    }
+                    $table = get_raw_tag_c($html, '<div id="GoodsArticleListStock_ctl" style="display:inline;">', '</div>');
+                    $quantity = get_raw_tag_s($table, '<td class="table-td table-td nowrap"', '<\/td>', true);
+                    if(!is_array($quantity) || empty($quantity[0][0])){
+                        // throw new xException("ID: {$row} QUANTITY NOT FOUND!");
+                        $error = true;
+                        $quantity = "ID: {$row} QUANTITY NOT FOUND!";
+                    }else{
+                        $quantity = $quantity[0][0];
+                    }
+                    
+                    if(!$error){
+                        $map[] = array(
+                            strip_tags($code), $price, strip_tags($quantity)
+                        );
+                    }else{
+                        $errors[] = array(
+                            $code, $price, $quantity
+                        );
+                    }
+                }
+            }
+            to_csv($map, $config['result_update_dir']['value'], $file);
+        }
+        $debug->set_e();
+        xlogw($errors);
+        die($debug->cal(false));
+    }
 }
 ?>

@@ -20,7 +20,7 @@ class EpicStealer extends Controller{
         $debug = new xDebugger(true, $config['debug']['value']);
         $debug->set_s();
 
-        $tree = file_get_contents($config['tree_file']['value']);
+        $tree = file_get_contents($config['tree_collapse_file']['value']);
 
         $ids_raw = get_raw_tag_s($tree, '/ext:tree-node-id="', '"');
 
@@ -135,7 +135,7 @@ class EpicStealer extends Controller{
 
 
                 if(empty($matches)){
-                    throw new xException("SOMETHING WRONG! ID: {$row['id']} PAGE: {$i}");
+                    throw new xException("SOMETHING WENT WRONG! ID: {$row['id']} PAGE: {$i}");
                 }
 
                 $count += count($matches);
@@ -179,7 +179,7 @@ class EpicStealer extends Controller{
                 foreach($m_list as $p_id){
                     $list_product_txt .= $p_id['product_id'] . PHP_EOL;
                 }
-                $file = $m_g_key . '_' . $m_list_key. '.txt';
+                $file = $m_list_key . '_' . $m_g_key. '.txt';
                 file_put_contents($config['result_text_dir']['value'] . '/' . $file, $list_product_txt);
             }
         }

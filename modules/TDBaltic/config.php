@@ -44,6 +44,11 @@
     'value' => '/files/rez',
     'name' => 'Result directory',
   ),
+  'result_update_dir' => 
+  array (
+    'value' => '/files/update',
+    'name' => 'Result directory',
+  ),
   'order_file' => 
   array (
     'value' => 'order.php',
