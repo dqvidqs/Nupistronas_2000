@@ -42,7 +42,7 @@ class EpicStealer extends Controller{
 
         $ids = include $config['result_dir']['value'] . '/' . $config['result_list']['value'];
         
-        $ids = array_slice($ids, 0, 3);
+        // $ids = array_slice($ids, 0, 3);
         // xlog($ids);
         // $id = 9 ;
         // 3001 NONE
@@ -103,7 +103,7 @@ class EpicStealer extends Controller{
         $txt_porduct_ids = array();
 
         $hashed = include $config['result_dir']['value'] . '/' . $config['result_list_hashed']['value'];
-        $hashed = array_slice($hashed, 2, 1);
+        // $hashed = array_slice($hashed, 2, 1);
         // xlog($hashed);
 
         $ex = new xHTMLExtractor(array(
@@ -113,6 +113,7 @@ class EpicStealer extends Controller{
         ));
 
         foreach($hashed as $row){
+            // xlog($hashed);
             $ex->get_raw_html($config['list_link']['value'] . $row['id'] . '/1/1');
             for($i = 1; $i <= $row['pages']; $i++){
                 // xlog($row);
