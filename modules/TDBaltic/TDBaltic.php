@@ -156,7 +156,7 @@ class TDBaltic extends Controller{
                     //gellery
                     $html = $html_ex->get_raw_html($config['products_link']['value'] . $row);
                     // xlog($row);
-                    $price = xmoney(get_raw_tag_c($html, '<span class="product_info_price">', '</span>', true));
+                    $price = $ex->get_price(get_raw_tag_c($html, '<span class="product_info_price">', '</span>', true));
                     // xlog($price);
                     if(!is_numeric($price)){
                         // throw new xException("ID: {$row} PRICE NOT FOUND!");
@@ -188,7 +188,7 @@ class TDBaltic extends Controller{
                     }else{
                         $quantity = $quantity[0][0];
                     }
-                    
+
                     if(!$error){
                         $map[] = array(
                             strip_tags($code), $price, strip_tags($quantity)
