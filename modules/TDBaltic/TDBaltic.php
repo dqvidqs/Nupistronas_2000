@@ -136,10 +136,10 @@ class TDBaltic extends Controller{
             'Prekės kodas', 'EAN kodas', 'Garantija', 'months'
         );
 
+        $map = array(array(
+            'Prekės kodas' , 'Kaina', 'Kiekis'
+        ));
         foreach($files as $file_index => $file){
-            $map = array(array(
-                'Prekės kodas' , 'Kaina', 'Kiekis'
-            ));
             $file_content = file_get_contents($config['products_dir']['value'] .'/'. $file);
             $ids = explode(PHP_EOL, $file_content);
             $errors = array();
@@ -200,8 +200,8 @@ class TDBaltic extends Controller{
                     }
                 }
             }
-            to_csv($map, $config['result_update_dir']['value'], $file);
         }
+        to_csv($map, $config['result_update_dir']['value'], 'ALL_UPDATED_PRODUCTS.txt');
         $debug->set_e();
         xlogw($errors);
         die($debug->cal(false));
