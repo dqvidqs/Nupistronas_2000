@@ -47,7 +47,7 @@
   'result_update_dir' => 
   array (
     'value' => '/files/update',
-    'name' => 'Result directory',
+    'name' => 'Update directory',
   ),
   'order_file' => 
   array (

@@ -52,6 +52,7 @@ class TDBaltic extends Controller{
                 if($id_key != 0){
                     sleep($boot->config['sleep']['value']);
                 }
+                $file_name = explode('_', $file);
 
                 $dub->set_s('FILE: ' . $file . '; ID: <a target="_blank" href="' . $boot->config['products_link']['value'] . $row . '">' . $row . '</a>; STARTED!: <br>');
 
@@ -76,6 +77,8 @@ class TDBaltic extends Controller{
                     }
                     $map['add|ID'][$id_key] = $row;
                     $map['add|Title'][$id_key] = $title ?? '-';
+                    $map['add|Category'][$id_key] = 'ID' . $file_name[0] . 'ID';
+                    $map['add|Brand'][$id_key] = str_replace('.txt', '', $file_name[1]);
                     $map['add|Price'][$id_key] = $price;
                     $map['add|img'][$id_key] = implode ( $img_ex, $boot->config['img_implode']['value'] );
 
@@ -205,6 +208,10 @@ class TDBaltic extends Controller{
         $debug->set_e();
         xlogw($errors);
         die($debug->cal(false));
+    }
+
+    public function merge(){
+
     }
 }
 ?>
