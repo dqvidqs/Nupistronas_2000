@@ -19,12 +19,23 @@ class Formating extends Controller{
         ), 'view.php');
     }
 
+    public function format_all(){
+        $boot = Bootstrap::get_instance();
+        $_POST['skip'] = true;
+        $targets = get_files($boot->config['targets_dir']['value']);
+        foreach($targets as $target){
+            $_POST['target'] = $target;
+            $this->format();
+        }
+        die('DONE!');
+    }
+
     public function format(){
 
         $boot = Bootstrap::get_instance();
 
         $target = from_csv($boot->config['targets_dir']['value'], $_POST['target']);
-
+        $addition = null;
         if(!empty($_POST['additions'])){
             $addition = include $boot->config['additions_dir']['value'] . '/'. $_POST['additions'];
         }
@@ -77,9 +88,11 @@ class Formating extends Controller{
             }
         }
         to_csv($map, $boot->config['result_dir']['value'], 'formatted_' . $_POST['target'] );
-        $this->view->render(array(
-            'result' => 'DONE!'
-        ), 'result.php');
+        if(!$_POST['skip']){
+            $this->view->render(array(
+                'result' => 'DONE!'
+            ), 'result.php');
+        }
     }
 
     private function append_map(array &$map, array $old_map, $key, int &$push = 0, bool $skip_first = false): void{
