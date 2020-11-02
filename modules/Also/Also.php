@@ -3,6 +3,7 @@
 require_once __PHP__ .'/xExtractor/xExtractor.php';
 require_once __PHP__ .'/xList/xList.php';
 require_once __PHP__ .'/xProducts/xProducts.php';
+require_once __PHP__ .'/xExtractor/xExtractor.php';
 
 class Also extends Controller{
 
@@ -90,7 +91,7 @@ class Also extends Controller{
         $link_prd = $this->cfg['product_link']['value'];
         $link_des = $this->cfg['des_link']['value'];
 
-
+        $ex = new xExtractor();
         
         $html_ex = new xHTMLExtractor(array(
             'cookies' => $this->cfg['cookies']['value'],
@@ -145,7 +146,7 @@ class Also extends Controller{
                 $products->add($id, 'Title', $JSON['materialList'][0]['descriptionSapLong']);
                 $products->add($id, 'Category', 'ID' . $list_id . 'ID');
                 $products->add($id, 'Brand', $JSON['materialList'][0]['manufacturer']);
-                $products->add($id, 'Price', $JSON['materialList'][0]['hekValue']);
+                $products->add($id, 'Price', $ex->get_price($JSON['materialList'][0]['hekValue']));
                 // xlog($JSON);
                 $html = $html_ex->get_raw_html(str_replace('@ID@', $id, $link_des));
                 
