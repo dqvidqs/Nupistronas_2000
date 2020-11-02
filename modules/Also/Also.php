@@ -117,7 +117,7 @@ class Also extends Controller{
                 $RAW = get_href_from_tag($RAW, false);
 
                 $img = array();
-                $eximg = array();
+                $img_ex = array();
 
                 if(is_array($RAW) && count($RAW) > 0){
 
