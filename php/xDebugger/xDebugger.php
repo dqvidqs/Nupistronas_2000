@@ -6,6 +6,7 @@
         private $end  = array();
         private $line = array();
         private $as_new;
+        private $log;
         private $run;
 
         function __construct(bool $as_new = false, bool $run = true){          
@@ -57,18 +58,24 @@
                 if($show){
                     echo implode ( '<br>' , $this->line). '<br>'. '<br>';
                 }
-                return implode ( '<br>' , $this->line). '<br>'. '<br>';
+                $this->log = implode ( '<br>' , $this->line). '<br>'. '<br>';
+                return $this->log;
             }else{
                 $line = $this->to_string_line(count($this->start) - 1, end($this->name), end($this->start), end($this->end));
                 if($show){
                     echo $line . '<br>' . '<br>';
                 }
-                return $line . '<br>' . '<br>';
+                $this->log = $line . '<br>' . '<br>';
+                return $this->log;
             }
         }
 
         private function to_string_line($index, $name, $start, $end): string{
             return $index . '# ' . $name . '; Execution time: '. number_format(($end - $start), 4) . ' s';
+        }
+
+        public function get_log() : string{
+            return $this->log;
         }
     }
 ?>

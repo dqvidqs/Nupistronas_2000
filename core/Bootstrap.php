@@ -22,7 +22,9 @@ class Bootstrap{
             require_once "modules/run.php";
             $class = new run(array(
                 'root' => __MODULES__,
-                'module' => __MODULES__ . '/view.php'
+                'module' => __MODULES__ . '/view.php',
+                'controller' => 'index',
+                'method' => 'run'
             ));
             $class->run();
         }
@@ -42,7 +44,9 @@ class Bootstrap{
         require_once __MODULES__ . "/{$arr[0]}/{$arr[0]}.php";
         $class = new $arr[0](array(
             'root' => $this->root ,
-            'module' => $this->root . "/view.php"
+            'module' => $this->root . "/view.php",
+            'controller' => $arr[0],
+            'method' => isset($arr[1]) && !empty($arr[1]) ? $arr[1] : 'run',
         ));
         
         if(isset($arr[1]) && !empty($arr[1])){

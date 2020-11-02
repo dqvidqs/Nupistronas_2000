@@ -22,12 +22,9 @@
                 <br>
             </header>
         </div>
-        <main role="main" class="container">
-            <?php if($module) {echo $module;} ?>
+        <main role="main" class="container pb-5">
+            <?php if($_MODULE) {echo $_MODULE;} ?>
         </main>
-        <br>
-        <br>
-        <br>
         <footer class="footer fixed-bottom">
             <div class="row bg-dark flex-nowrap justify-content-center align-items-center text-white p-md-2">
                 <div class="col-auto">

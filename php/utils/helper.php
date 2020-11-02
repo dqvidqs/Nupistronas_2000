@@ -15,6 +15,12 @@ function get_raw_tag(string $content, string $start, string $end): array{
     return $matches;
 }
 
+function get_raw_tag_d(string $content, string $start, string $end): array{
+    $regex = '/'. $start . '(.|\n)*?' . $end . '/m';
+    preg_match_all($regex, $content, $matches, PREG_SET_ORDER);
+    return $matches;
+}
+
 function get_raw_tag_s(string $content, string $start, string $end, bool $flash = false){
     $regex = ( $flash ? '/' : '' ) . $start . '(.*?)' . $end . '/m';
     // xlog($regex);
@@ -44,10 +50,10 @@ function get_raw_tag_f(string $content, string $start, string $end): string{
     return $value;
 }
 
-function get_href_from_tag(string $tag){
+function get_href_from_tag(string $tag, bool $one = true){
     $regex = '/(?<=href=")(.|\n)*?(?=")/m';
     preg_match_all($regex, $tag, $matches, PREG_SET_ORDER);
-    return $matches[0][0];
+    return $one ? $matches[0][0] : $matches;
 }
 
 function to_csv(array $map, string $dir, string $file): void{
@@ -119,6 +125,18 @@ function contain_key(string $object, array $search, bool $igone_sensitive = true
 
 function array_to_file(string $file, array $array){
     file_put_contents($file, "<?php return " . var_export($array, true) . " ?>");
+}
+
+function remove_chars(string $data, $chars){
+    if(!is_array($chars)){
+        $char = [$chars];
+    }
+
+    foreach($chars as $char){
+        $data = str_replace(chr($char), '', $data);
+    }
+    
+    return $data;
 }
 
 ?>

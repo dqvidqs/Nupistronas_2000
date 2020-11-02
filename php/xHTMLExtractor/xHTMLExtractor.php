@@ -7,7 +7,7 @@ class xHTMLExtractor{
         $this->config = $config;
     }
 
-    public function get_raw_html($url = null): string{
+    public function get_raw_html($url = null, bool $info = false){
         $headers = $this->set_header($this->config);
         if(!$url && !$this->url){
             throw new xException('url does not exists!');
@@ -27,13 +27,21 @@ class xHTMLExtractor{
         
         if (curl_error($curl))
             die(curl_error($curl));
+        if($info){
+            $result_status = curl_getinfo($curl);
+        }
             
         curl_close($curl);
+
+        if($info){
+            $result_status['result'] = $result;
+            return $result_status;
+        }
 
         return $result;
     }
     
-    public function post($arr = array()){
+    public function post($arr = array(), bool $info = false){
         $headers = $this->set_header($this->config);
         if(!$this->url){
             throw new xException('url does not exists!');
@@ -53,19 +61,27 @@ class xHTMLExtractor{
         curl_setopt($curl, CURLOPT_COOKIESESSION, $this->config['cookies'] ? 1 : 0);
 
         $result = curl_exec($curl);
-        // xlog($curl);
+
         if (curl_error($curl))
             die(curl_error($curl));
-            $info = curl_getinfo($curl);
+
+        if($info){
+            $result_status = curl_getinfo($curl);
+        }
         curl_close($curl);
-        // xlog($info);
+
+        if($info){
+            $result_status['result'] = $result;
+            return $result_status;
+        }
+
         return $result;
     }
 
     private function set_header(array $config): array{
         if(!empty($config['cookies'])) {$headers[] = 'Cookie: ' . $config['cookies'] ;}
         if(!empty($config['contentType'])) {$headers[] = 'Content-Type: ' . $config['contentType'] ;}
-        // xlog($headers);
+
         return $headers ?? array();
     }
 }
